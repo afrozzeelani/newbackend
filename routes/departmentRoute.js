@@ -8,7 +8,7 @@ const {
   getAllDepartment,
   createDepartment,
   updateDepartment,
-  deleteDepartment
+  // deleteDepartment
 } = require("../controllers/DepartmentController");
 
 // GET: Retrieve all countries
@@ -22,6 +22,6 @@ departmentRoute.post("/department", createDepartment);
 departmentRoute.put("/department/:id", updateDepartment);
 
 // DELETE: Delete a city
-departmentRoute.delete("/department/:id", deleteDepartment);
+// departmentRoute.delete("/department/:id", deleteDepartment);
 
 module.exports = departmentRoute;
