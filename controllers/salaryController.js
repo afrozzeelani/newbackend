@@ -1,29 +1,26 @@
-
-
-
-
-
-const Joi = require('joi');
-const { Employee } = require('../models/employeeModel');
-const { Salary } = require('../models/salaryModel');
-const { SalaryValidation } = require('../validations/salaryValidation');
+const Joi = require("joi");
+const { Employee } = require("../models/employeeModel");
+const { Salary } = require("../models/salaryModel");
+const { SalaryValidation } = require("../validations/salaryValidation");
 
 const getAllSalary = async (req, res) => {
   Employee.find()
     .populate({
       path: "salary"
     })
-    .select("FirstName LastName MiddleName empID")
+    .select("FirstName LastName MiddleName")
     .populate({
       path: "position"
     })
     .exec(function (err, company) {
-      let filteredCompany = company.filter(data => data["salary"].length == 1);
+      let filteredCompany = company.filter(
+        (data) => data["salary"].length == 1
+      );
       res.send(filteredCompany);
     });
-}
+};
 
-// create a Salary 
+// create a Salary
 const createSalary = async (req, res) => {
   Joi.validate(req.body, SalaryValidation, (err, result) => {
     if (err) {
@@ -75,9 +72,9 @@ const createSalary = async (req, res) => {
       });
     }
   });
-}
+};
 
-// find and update the Salary 
+// find and update the Salary
 const updateSalary = async (req, res) => {
   Joi.validate(req.body, SalaryValidation, (err, result) => {
     if (err) {
@@ -95,21 +92,25 @@ const updateSalary = async (req, res) => {
         TaxDeduction: req.body.TaxDeduction
       };
 
-      Salary.findByIdAndUpdate(req.params.id, newSalary, function (err, salary) {
-        if (err) {
-          res.send("error");
-        } else {
-          res.send(newSalary);
+      Salary.findByIdAndUpdate(
+        req.params.id,
+        newSalary,
+        function (err, salary) {
+          if (err) {
+            res.send("error");
+          } else {
+            res.send(newSalary);
+          }
         }
-      });
+      );
     }
 
     console.log("put");
     console.log(req.body);
   });
-}
+};
 
-// find and delete the Salary 
+// find and delete the Salary
 const deleteSalary = async (req, res) => {
   Employee.findById({ _id: req.params.id }, function (err, employee) {
     console.log("uuuuuuuunnnnnnnnnnnnnnndef", employee.salary[0]);
@@ -117,35 +118,34 @@ const deleteSalary = async (req, res) => {
       res.send("error");
       console.log(err);
     } else {
-      Salary.findByIdAndRemove({ _id: employee.salary[0] }, function (
-        err,
-        salary
-      ) {
-        if (!err) {
-          console.log("salary deleted");
-          Employee.update(
-            { _id: req.params.id },
-            { $pull: { salary: employee.salary[0] } },
-            function (err, numberAffected) {
-              console.log(numberAffected);
-              res.send(salary);
-            }
-          );
-        } else {
-          console.log(err);
-          res.send("error");
+      Salary.findByIdAndRemove(
+        { _id: employee.salary[0] },
+        function (err, salary) {
+          if (!err) {
+            console.log("salary deleted");
+            Employee.update(
+              { _id: req.params.id },
+              { $pull: { salary: employee.salary[0] } },
+              function (err, numberAffected) {
+                console.log(numberAffected);
+                res.send(salary);
+              }
+            );
+          } else {
+            console.log(err);
+            res.send("error");
+          }
         }
-      });
+      );
       console.log("delete");
       console.log(req.params.id);
     }
   });
-}
-
+};
 
 module.exports = {
   getAllSalary,
   createSalary,
   updateSalary,
   deleteSalary
-}
+};

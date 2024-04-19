@@ -1,13 +1,13 @@
 const express = require("express");
 const leaveRoute = express.Router();
 
-const {
-  verifyHR,
-  verifyEmployee,
-  verifyAdminHR,
-  verifyHREmployee,
-  verifyAdminHREmployee
-} = require("../middleware/authMiddleware");
+// const {
+//   verifyHR,
+//   verifyEmployee,
+//   verifyAdminHR,
+//   verifyHREmployee,
+//   verifyAdminHREmployee
+// } = require("../middleware/authMiddleware");
 const {
   getAllLeaveApplication,
   createLeaveApplication,
@@ -21,17 +21,11 @@ const {
 // GET: Retrieve all leave
 leaveRoute.get(
   "/leave-application-emp/:id?",
-  verifyAdminHREmployee,
-  getAllLeaveApplication
-);
-leaveRoute.get(
-  "/leave-application-man/:id?",
-  verifyAdminHR,
+  // verifyAdminHREmployee,
   getAllLeaveApplication
 );
 leaveRoute.get(
   "/leave-application-hr",
-  verifyAdminHR,
   getAllLeaveApplicationHr
 );
 
@@ -45,24 +39,24 @@ leaveRoute.post(
 // PUT: Update an existing leave
 leaveRoute.put(
   "/leave-application-emp/:id?",
-  verifyHREmployee,
+  // verifyHREmployee,
   updateLeaveApplication
 );
 leaveRoute.put(
   "/leave-application-hr/:id",
-  verifyAdminHR,
+  // verifyAdminHR,
   updateLeaveApplicationHr
 );
 
 // DELETE: Delete a leave
 leaveRoute.delete(
   "/leave-application-emp/:id/:id2",
-  verifyEmployee,
+  // verifyEmployee,
   deleteLeaveApplication
 );
 leaveRoute.delete(
   "/leave-application-hr/:id/:id2",
-  verifyAdminHR,
+  // verifyAdminHR,
   deleteLeaveApplicationHr
 );
 

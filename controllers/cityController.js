@@ -5,7 +5,7 @@ const State = require('../models/stateModel');
 const Company = require('../models/companyModel');
 
 
-// get all citys 
+// get all cit
 const getAllcity = async (req, res) => {
   City.find()
     .populate({ path: "state", populate: { path: "country" } })

@@ -15,10 +15,7 @@ const loginEmployee = async (req, res) => {
     const employee = await Employee.findOne({
       $or: [{ Email: email }, { ContactNo: email }, { empID: email }],
     });
-    console.log("employee ===========", employee.FirstName);
-    console.log("employee ===========", employee.reportManager);
-    console.log("employee ===========", employee.reportManager);
-
+    console.log("employee ===========", employee);
     if (!employee) {
       return res.status(404).send("Employee not found.");
     } else {
@@ -28,16 +25,13 @@ const loginEmployee = async (req, res) => {
         console.log("pass ==== ----------");
         return res.status(400).send("Invalid password.");
       }
- 
       // Generate JWT token
       const token = jwt.sign(
         {
           _id: employee._id,
           Account: employee.Account,
           FirstName: employee.FirstName,
-          LastName: employee.LastName,         
-          reportHr: employee.reportHr || "",
-          reportManager: employee.reportManager || ""
+          LastName: employee.LastName,
         },
         jwtKey
       );

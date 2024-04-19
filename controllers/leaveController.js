@@ -8,7 +8,6 @@ const {
 
 // find  all LeaveApplication Employee
 const getAllLeaveApplication = async (req, res) => {
-  console.log("byeeee",req.params.id)
   Employee.findById(req.params.id)
     .populate({
       path: "leaveApplication"
@@ -47,11 +46,9 @@ const getAllLeaveApplicationHr = async (req, res) => {
 
 // create a LeaveApplication
 const createLeaveApplication = async (req, res) => {
-  console.log("body",req.body)
-  Joi.validate(req.body,(err, result) => {
-   
+  Joi.validate(req.body, LeaveApplicationValidation, (err, result) => {
     if (err) {
-      console.log("hiiiiii",err);
+      console.log(err);
       res.status(400).send(err.details[0].message);
     } else {
       Employee.findById(req.params.id, function (err, employee) {
@@ -64,11 +61,13 @@ const createLeaveApplication = async (req, res) => {
             Leavetype: req.body.Leavetype,
             FromDate: req.body.FromDate,
             ToDate: req.body.ToDate,
+            managerEmail: req.body.managerEmail,
+            hrEmail: req.body.hrEmail,
             Reasonforleave: req.body.Reasonforleave,
             Status: req.body.Status,
             employee: req.params.id
           };
-console.log(newLeaveApplication)
+
           LeaveApplication.create(
             newLeaveApplication,
             function (err, leaveApplication) {
@@ -110,6 +109,8 @@ const updateLeaveApplication = async (req, res) => {
         Leavetype: req.body.Leavetype,
         FromDate: req.body.FromDate,
         ToDate: req.body.ToDate,
+        managerEmail: req.body.managerEmail,
+        hrEmail: req.body.hrEmail,
         Reasonforleave: req.body.Reasonforleave,
         Status: req.body.Status,
         employee: req.params.id

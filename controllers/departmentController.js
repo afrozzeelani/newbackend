@@ -1,7 +1,6 @@
-const Joi = require('joi');
+const Joi = require("joi");
 const Department = require("../models/departmentModel");
 const DepartmentValidation = require("../validations/departmentValideton");
-
 
 const getAllDepartment = async (req, res) => {
   Department.find()
@@ -21,7 +20,7 @@ const createDepartment = async (req, res) => {
 
       newDepartment = {
         DepartmentName: req.body.DepartmentName,
-        company: req.body.CompanyID,
+        company: req.body.CompanyID
       };
 
       Department.create(newDepartment, function (err, department) {
@@ -81,7 +80,7 @@ const updateDepartment = async (req, res) => {
 
       updateDepartment = {
         DepartmentName: req.body.DepartmentName,
-        company: req.body.CompanyID,
+        company: req.body.CompanyID
       };
 
       Department.findByIdAndUpdate(
@@ -102,6 +101,6 @@ const updateDepartment = async (req, res) => {
 module.exports = {
   getAllDepartment,
   createDepartment,
-  deleteDepartment,
-  updateDepartment,
+  // deleteDepartment,
+  updateDepartment
 };
